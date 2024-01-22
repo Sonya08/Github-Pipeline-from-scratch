@@ -28,8 +28,7 @@ pip install -r requirements.txt
 export FLASK_APP="${FLASK_APP_PATH}"
 
 # Kill any process using port 5000
-
+taskkill /F /IM "python.exe" /FI "PID ne $$"
 
 # Start the Flask application in the background
-nohup flask run app.py --host=0.0.0.0 --port=5001 > "${STDOUT_LOG}" 2> "${STDERR_LOG}" &
-read -p "Press enter to exit"
+flask run --host=0.0.0.0 --port=5000 > "${STDOUT_LOG}" 2> "${STDERR_LOG}" &
