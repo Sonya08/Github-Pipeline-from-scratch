@@ -9,7 +9,7 @@ git pull origin $BRANCH_NAME
 
 pip install -r requirements.txt
 
-pytest
+pytest test-app.py
 
 # Pause to keep the console window open
 read -p "Press enter to exit"
