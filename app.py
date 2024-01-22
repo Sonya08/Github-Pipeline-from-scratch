@@ -1,37 +1,55 @@
-from flask import Flask, render_template, redirect, url_for, request, jsonify
+from flask import Flask, render_template
 from app_routes import deployment_blueprint, testing_blueprint
-
+from flask import request
+from flask.json import jsonify
+ 
+ 
 app = Flask(__name__)
-
+ 
 # Register blueprints with prefixes to avoid route conflicts
 app.register_blueprint(deployment_blueprint, url_prefix='/deployment')
 app.register_blueprint(testing_blueprint, url_prefix='/testing')
-
-# In-memory database
-items = []
-
-@app.route('/')
-def index():
-    return render_template('index.html', items=items)
-
-@app.route('/add', methods=['POST'])
-def add_item():
-    item = request.form.get('item')
-    if item:
-        items.append(item)
-    return redirect(url_for('index'))
-
-@app.route('/delete/<int:index>')
-def delete_item(index):
-    if index < len(items):
-        items.pop(index)
-    return redirect(url_for('index'))
-
-@app.route('/update/<int:index>', methods=['POST'])
-def update_item(index):
-    if index < len(items):
-        items[index] = request.form.get('new_item')
-    return redirect(url_for('index'))
-
+ 
+@app.route("/")
+def home():
+    return render_template("home.html")
+ 
+@app.route("/api/hello")
+def hello():
+    """
+    Return a hello message
+    """
+    return jsonify({"hello": "world"})
+ 
+@app.route("/api/hello/<name>")
+def hello_name(name):
+    """
+    Return a hello message with name
+    """
+    return jsonify({"hello": name})
+ 
+@app.route("/api/whoami")
+def whoami():
+    """
+    Return a JSON object with the name, ip, and user agent
+    """
+    return jsonify(
+        name=request.remote_addr,
+        ip=request.remote_addr,
+        useragent=request.user_agent.string
+    )
+ 
+@app.route("/api/whoami/<name>")
+def whoami_name(name):
+    """
+    Return a JSON object with the name, ip, and user agent
+    """
+    return jsonify(
+        name=name,
+        ip=request.remote_addr,
+        useragent=request.user_agent.string
+    )
+ 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
+ 

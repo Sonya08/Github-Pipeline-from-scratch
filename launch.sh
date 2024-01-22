@@ -2,7 +2,7 @@
  
 # Configuration
 BRANCH_NAME=$1
-REPO_DIR="C:\\Users\\SONYA\\Desktop\\Github-Pipeline-from-scratch"
+REPO_DIR="C:\Users\SONYA\Desktop\Github-Pipeline-from-scratch"
 LOG_DIR="${REPO_DIR}/logs"
 STDOUT_LOG="${LOG_DIR}/stdout.log"
 STDERR_LOG="${LOG_DIR}/stderr.log"
