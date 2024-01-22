@@ -1,27 +1,36 @@
 import unittest
 from app import app
-
-class TestFlaskApp(unittest.TestCase):
+ 
+ 
+ 
+class FlaskTestCase(unittest.TestCase):
+ 
     def setUp(self):
         self.app = app.test_client()
-        self.app.testing = True
-
-    def test_read_page(self):
-        # check if the page is loaded
-        pass
-
-    def test_add_item(self):
-        # Test adding an item
-        response = self.app.post('/add', data=dict(item="Test Item"), follow_redirects=True)
-        self.assertEqual(response.status_code, 200, "Response should be 200 OK")
-
-    def test_delete_item(self):
-        # you can refer to the app by using self.app
-        # make a post request with self.app.post(...
-        pass
-        
-    def test_update_item(self):
-        pass
-
+ 
+    def test_home(self):
+        response = self.app.get('/')
+        self.assertEqual(response.status_code, 200)
+ 
+    def test_hello(self):
+        response = self.app.get('/api/hello')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json, {'hello': 'world'})
+ 
+    def test_hello_name(self):
+        response = self.app.get('/api/hello/ben')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json, {'hello': 'ben'})
+ 
+    def test_whoami(self):
+        response = self.app.get('/api/whoami')
+        self.assertEqual(response.status_code, 200)
+        self.assertIsNotNone(response.json['ip'])
+ 
+    def test_whoami_name(self):
+        response = self.app.get('/api/whoami/ben')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json['name'], 'ben')
+ 
 if __name__ == '__main__':
     unittest.main()

@@ -1,36 +1,35 @@
 #!/bin/bash
- 
+
 # Configuration
 BRANCH_NAME=$1
-REPO_DIR="C:\Users\SONYA\Desktop\Github-Pipeline-from-scratch"
+REPO_DIR="C:/Users/SONYA/Desktop/Github-Pipeline-from-scratch"
 LOG_DIR="${REPO_DIR}/logs"
 STDOUT_LOG="${LOG_DIR}/stdout.log"
 STDERR_LOG="${LOG_DIR}/stderr.log"
 FLASK_APP_PATH="${REPO_DIR}/app.py"
- 
-# Créer le répertoire de logs si nécessaire
+
+# Create the logs directory if necessary
 mkdir -p "${LOG_DIR}"
- 
-# Se déplacer dans le répertoire du dépôt
+
+# Change to the repository directory
 cd "${REPO_DIR}"
- 
-# Configurer Git pour éviter les problèmes de branches divergentes
+
+# Configure Git to avoid divergent branch problems
 git config pull.rebase false
- 
-# Mettre à jour le code source
+
+# Update the source code
 git pull origin $BRANCH_NAME
- 
-# Mettre à jour pip et installer les dépendances
+
+# Update pip and install dependencies
 pip install --upgrade pip
 pip install -r requirements.txt
- 
-# Définir le chemin vers l'application Flask
+
+# Set the Flask application path
 export FLASK_APP="${FLASK_APP_PATH}"
- 
-kill $(lsof -ti :5000)
- 
-# Démarrer l'application Flask en arrière-plan
-flask run --host=0.0.0.0 --port=5000 > "${STDOUT_LOG}" 2> "${STDERR_LOG}" &
- 
-# Message de confirmation
-echo "Application Flask lancée et logs enregistrés dans ${LOG_DIR}"
+
+# Kill any process using port 5000
+
+
+# Start the Flask application in the background
+nohup flask run app.py --host=0.0.0.0 --port=5001 > "${STDOUT_LOG}" 2> "${STDERR_LOG}" &
+read -p "Press enter to exit"
